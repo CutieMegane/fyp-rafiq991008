@@ -77,6 +77,11 @@ class authEngine extends Controller
         return Auth::user()->username;
     }
 
+    public function deop(Request $request, User $user) {
+        if ($request['operator'] == "on") $op = 1;
+        else $op = 0;
+    }
+
     public function index()
     {
         $z = User::all();
@@ -113,6 +118,8 @@ class authEngine extends Controller
         if ($request['operator'] == "on") $op = 1;
         else $op = 0;
 
+        
+
         User::create([
             'name' => $request['name'],
             'email' => $request['email'],
@@ -121,7 +128,7 @@ class authEngine extends Controller
             'operator' => $op
         ]);
 
-        return redirect()->route('useradd.index')->with('success', 'New staff added.');
+        return redirect()->route('user.index')->with('success', 'New staff added.');
     }
 
     /**
@@ -141,9 +148,9 @@ class authEngine extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $useradd)
+    public function edit(User $user)
     {
-        return view('user.edit', compact('useradd'));
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -153,23 +160,26 @@ class authEngine extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $useradd)
+    public function update(Request $request, User $user)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['string', 'max:255'],
             'email' => ['nullable', 'string', 'max:50'],
-            'password' => ['required', 'string', 'confirmed'],
+            'password' => ['nullable', 'string', 'confirmed'],
         ]);
 
-        $useradd->name = $request['name'];
-        $useradd->email = $request['email'];
+        if ($request['name'] != null)
+            $user->name = $request['name'];
+        $user->email = $request['email'];
         if (!($request->password == 'null')) {
-            $useradd->password = Hash::make($request->password);
+            $user->password = Hash::make($request->password);
         }
-        $useradd->operator = $request['operator'];
-        $useradd->save();
+        if ($request['operator'] == "on") $op = 1;
+        else $op = 0;
+        $user->operator = $op;
+        $user->save();
 
-        return redirect()->route('useradd.index')->with('success', 'New staff added.');
+        return redirect()->route('user.index')->with('success', 'New staff added.');
     }
 
     /**
@@ -178,15 +188,15 @@ class authEngine extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $useradd)
+    public function destroy(User $user)
     {
         if (User::all()->count() == 1) {
-            return redirect()->route('useradd.index')->with('success2', "You are the loner here, please don't delete yourself.");
-        } else if (auth()->user()->id == $useradd->id) {
-            return redirect()->route('useradd.index')->with('success2', "Don't, please.");
+            return redirect()->route('user.index')->with('success2', "You are the loner here, please don't delete yourself.");
+        } else if (auth()->user()->id == $user->id) {
+            return redirect()->route('user.index')->with('success2', "Don't, please.");
         } else {
-            $useradd->delete();
-            return redirect()->route('useradd.index')->with('success2', 'User deleted');
+            $user->delete();
+            return redirect()->route('user.index')->with('success2', 'User deleted');
         }
     }
 }

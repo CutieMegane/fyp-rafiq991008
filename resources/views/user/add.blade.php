@@ -15,7 +15,7 @@
                 <div class="card-header">Add new user.</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('useradd.store') }}">
+                    <form method="POST" action="{{ route('user.store') }}">
                         @csrf
 
                         <div class="row mb-3">

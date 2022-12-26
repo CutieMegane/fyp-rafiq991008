@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-right">
-            <a class="btn btn-outline-info" href="{{ route('useradd.create') }}"> + User</a>
+            <a class="btn btn-outline-info" href="{{ route('user.create') }}"> + User</a>
         </div><br>
     </div>
 </div>
@@ -49,9 +49,9 @@
         <td> <input type="checkbox" class="form-check-input" style="margin-left:auto; margin-right:auto; margin-top: 10px; display:block;" value="operator"></td>
         @endif
         <td>
-            <form action="{{ route('useradd.destroy',  $s->id) }}" method="POST">
+            <form action="{{ route('user.destroy',  $s->id) }}" method="POST">
 
-                <a class="btn btn-outline-secondary" href="{{ route('useradd.edit', $s->id) }}">Edit</a>
+                <a class="btn btn-outline-secondary" href="{{ route('user.edit', $s->id) }}">Edit</a>
 
                 @csrf
                 @method('DELETE')

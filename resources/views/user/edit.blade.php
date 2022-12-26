@@ -12,10 +12,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Edit user details for {{ $useradd -> username }}.</div>
+                <div class="card-header">Edit user details for {{ $user -> username }}.</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('useradd.update', $useradd -> id) }}">
+                    <form method="POST" action="{{ route('user.update', $user -> id) }}">
                         @csrf
                         @method('PUT')
 
@@ -23,7 +23,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $useradd -> name }}" required autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user -> name }}" required autofocus>
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -37,7 +37,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $useradd -> email }}">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user -> email }}">
 
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -83,7 +83,7 @@
                                 <button type="submit" class="btn btn-outline-warning">
                                     Update
                                 </button>
-                                <a type="button" class="btn btn-outline-info" href="{{ route('useradd.index') }}">
+                                <a type="button" class="btn btn-outline-info" href="{{ route('user.index') }}">
                                     Back
                                 </a>
                             </div>

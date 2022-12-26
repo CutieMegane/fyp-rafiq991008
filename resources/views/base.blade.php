@@ -33,7 +33,7 @@
                 @auth
                 @if (Auth::user()->operator)
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('useradd.index') }}" id="nav2"> Manage User</a>
+                    <a class="nav-link" href="{{ route('user.index') }}" id="nav2"> Manage User</a>
                 </li>
                 @endif
 

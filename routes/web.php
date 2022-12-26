@@ -26,7 +26,7 @@ Route::post('init', [authEngine::class, 'firstInit'])->name('init');            
 Route::get('login', [authEngine::class, 'redirector'])->name('login');                          //Login
 Route::post('login', [authEngine::class, 'auth'])->name('login');                               //Login handler
 Route::post('logout', [authEngine::class, 'deauth'])->name('logout');                           //Logout handler
-Route::resource('/useradd', authEngine::class, ['except' => 'show']) -> middleware('auth');     //All user CRUD operation
+Route::resource('/user', authEngine::class, ['except' => 'show']) -> middleware('auth');     //All user CRUD operation
 Route::resource('/certs', CertsController::class, ['except' => 'show']) -> middleware('auth');  //All certs CRUD operation
 
 
