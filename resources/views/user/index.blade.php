@@ -44,7 +44,7 @@
         <td>{{ $s -> name }}</td>
         <td>{{ $s -> last_login }}</td>
         @if ($s -> operator)
-        <td> <input type="checkbox" class="form-check-input" style="margin-left:auto; margin-right:auto; margin-top: 10px; display:block;" value="operator" checked></td>
+        <td> <input onchange= type="checkbox" class="form-check-input" style="margin-left:auto; margin-right:auto; margin-top: 10px; display:block;" value="operator" checked></td>
         @else
         <td> <input type="checkbox" class="form-check-input" style="margin-left:auto; margin-right:auto; margin-top: 10px; display:block;" value="operator"></td>
         @endif

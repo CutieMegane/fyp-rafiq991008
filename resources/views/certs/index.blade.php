@@ -1,7 +1,7 @@
 @extends('base')
 
 @section('content')
-<title>List of certificates- eCert Signing System</title>
+<title>List of certificates - eCert Signing System</title>
 <script>
     document.getElementById('nav1').classList.remove('active');
     document.getElementById('nav2').classList.remove('active');
@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-right">
-            <a class="btn btn-outline-info" href="{{ route('certs.create') }}"> + User</a>
+            <a class="btn btn-outline-info" href="{{ route('certs.create') }}"> + Certs</a>
         </div><br>
     </div>
 </div>
