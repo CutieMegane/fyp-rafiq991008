@@ -74,8 +74,10 @@ class CertsController extends Controller
         //
     }
 
-    public function downloadImage(Certs $cert)
+    public function downloadCert(Certs $cert)
     {
+        $name = $cert->name . "_" . rand(1000,9999);
+        return response() -> download(public_path(Storage::url($cert->imagepath)), $name);
     }
 
     /**

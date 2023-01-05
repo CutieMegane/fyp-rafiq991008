@@ -28,6 +28,7 @@ Route::post('login', [authEngine::class, 'auth'])->name('login');               
 Route::post('logout', [authEngine::class, 'deauth'])->name('logout');                                   //Logout handler
 Route::resource('/user', authEngine::class, ['except' => 'show']) -> middleware('auth');                //All user CRUD operation
 Route::resource('/certs', CertsController::class, ['except' => 'show, update']) -> middleware('auth');  //All certs CRUD operation
+Route::get('download/{cert}', [CertsController::class, 'downloadCert'])-> name('certs.download');
 
 
 Route::get('ofni', function () {phpinfo();});                                                           //PHP sometimes broke itself

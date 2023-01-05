@@ -30,8 +30,8 @@
 
 <table class="table table-striped" style="width:100%">
     <tr>
-        <th style="width:40% ;">Name</th>
-        <th style="width:50% ;">Details</th>
+        <th style="width:30% ;">Name</th>
+        <th style="width:40% ;">Details</th>
         <th>Created By</th>
         <th width="10%">Action</th>
     </tr>
@@ -43,7 +43,7 @@
         <td>
             <form action="{{ route('certs.destroy',  $s->id) }}" method="POST">
 
-                <a class="btn btn-outline-secondary" href="{{ route('certs.edit', $s->id) }}">Edit</a>
+                <a class="btn btn-outline-secondary" href="{{ route('certs.download', $s->id) }}">Download</a>
 
                 @csrf
                 @method('DELETE')
