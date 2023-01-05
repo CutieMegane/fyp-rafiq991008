@@ -15,6 +15,7 @@ class Certs extends Model
         'name',
         'details',
         'created_by',
+        'created_at',
         'image',
         'hash',
         'stego_mark'

@@ -15,7 +15,7 @@
                 <div class="card-header">Add new certificates.</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.store') }}">
+                    <form method="POST" action="{{ route('certs.store') }}">
                         @csrf
 
                         <div class="row mb-3">

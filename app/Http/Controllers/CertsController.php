@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Certs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class CertsController extends Controller
 {
@@ -37,7 +39,21 @@ class CertsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'image' => ['required', 'images'],
+        ]);
+
+        Certs::create([
+            'name' => $request['name'],
+            'details' => $request['details'],
+            'image' => base64_encode($request['image']),
+            'hash' => Hash::make($request['image']),
+            'created_by' => Auth::user(),
+            'created_at' => now(),
+        ]);
+
+        return redirect()->route('certs.index')->with('success', 'New certs created.');
     }
 
     /**
