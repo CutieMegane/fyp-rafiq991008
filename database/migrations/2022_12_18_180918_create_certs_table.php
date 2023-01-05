@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Storage;
 
 return new class extends Migration
 {
@@ -38,5 +39,6 @@ return new class extends Migration
     {
         //Schema::connection('mongodb')-> dropIfExists('certs');
         Schema::dropIfExists('certs');
+        Storage::deleteDirectory('public/images');
     }
 };

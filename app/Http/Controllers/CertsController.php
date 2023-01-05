@@ -6,6 +6,7 @@ use App\Models\Certs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class CertsController extends Controller
 {
@@ -43,15 +44,17 @@ class CertsController extends Controller
             'image' => ['required', 'image'],
         ]);
 
-        $hash = Hash::make($request['image']);
-        if ($hash == Certs::where('hash', $hash))
-            return with('success2', 'Same file exists');
-        else {
+        $hess = hash_file("sha256", $request->image->path());
+
+        if (Certs::where('hash', '=',  $hess)->exists()) {
+            return redirect()->route('certs.index')->with('success2', 'Same file already exists.');
+        } else {
+            $paff = $request->image->store('public/images');
             Certs::create([
                 'name' => $request['name'],
                 'details' => $request['details'],
-                'image' => base64_encode($request['image']),
-                'hash' => Hash::make($request['image']),
+                'imagepath' => $paff,
+                'hash' => $hess,
                 'created_by' => Auth::user()->name,
                 'created_at' => now(),
             ]);
@@ -63,25 +66,25 @@ class CertsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Certs  $certs
+     * @param  \App\Models\Certs  $cert
      * @return \Illuminate\Http\Response
      */
-    public function show(Certs $certs)
+    public function show(Certs $cert)
     {
         //
     }
 
-    public function downloadImage(Certs $certs)
+    public function downloadImage(Certs $cert)
     {
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Certs  $certs
+     * @param  \App\Models\Certs  $cert
      * @return \Illuminate\Http\Response
      */
-    public function edit(Certs $certs)
+    public function edit(Certs $cert)
     {
         //
     }
@@ -90,10 +93,10 @@ class CertsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Certs  $certs
+     * @param  \App\Models\Certs  $cert
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Certs $certs)
+    public function update(Request $request, Certs $cert)
     {
         //
     }
@@ -101,11 +104,13 @@ class CertsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Certs  $certs
+     * @param  \App\Models\Certs  $cert
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Certs $certs)
+    public function destroy(Certs $cert)
     {
-        //
+        Storage::delete($cert->imagepath);
+        $cert->delete();
+        return redirect()->route('certs.index')->with('success2', 'Certs revoked.');
     }
 }

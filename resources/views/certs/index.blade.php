@@ -48,7 +48,7 @@
                 @csrf
                 @method('DELETE')
 
-                <button type="submit" class="btn btn-outline-danger">Delete</button>
+                <button type="submit" class="btn btn-outline-danger">Revoke</button>
             </form>
         </td>
     </tr>
