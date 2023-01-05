@@ -15,7 +15,7 @@
                 <div class="card-header">Add new certificates.</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('certs.store') }}">
+                    <form method="POST" action="{{ route('certs.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row mb-3">
@@ -43,7 +43,13 @@
                         <div class="row mb-3">
                             <label class="col-md-4 col-form-label text-md-end" for="customFile">Default file input example</label>
                             <div class="col-md-6">
-                                <input type="file" required class="form-control" id="image" />
+                                <input type="file" required class="form-control" id="image" name="image" />
+
+                                @error('image')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
 

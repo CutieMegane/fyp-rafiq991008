@@ -18,7 +18,6 @@ class CertsController extends Controller
     {
         $certs = Certs::all();
         return view('certs.index', compact('certs'));
-        
     }
 
     /**
@@ -41,17 +40,22 @@ class CertsController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'image' => ['required', 'images'],
+            'image' => ['required', 'image'],
         ]);
 
-        Certs::create([
-            'name' => $request['name'],
-            'details' => $request['details'],
-            'image' => base64_encode($request['image']),
-            'hash' => Hash::make($request['image']),
-            'created_by' => Auth::user(),
-            'created_at' => now(),
-        ]);
+        $hash = Hash::make($request['image']);
+        if ($hash == Certs::where('hash', $hash))
+            return with('success2', 'Same file exists');
+        else {
+            Certs::create([
+                'name' => $request['name'],
+                'details' => $request['details'],
+                'image' => base64_encode($request['image']),
+                'hash' => Hash::make($request['image']),
+                'created_by' => Auth::user()->name,
+                'created_at' => now(),
+            ]);
+        }
 
         return redirect()->route('certs.index')->with('success', 'New certs created.');
     }
@@ -65,6 +69,10 @@ class CertsController extends Controller
     public function show(Certs $certs)
     {
         //
+    }
+
+    public function downloadImage(Certs $certs)
+    {
     }
 
     /**
