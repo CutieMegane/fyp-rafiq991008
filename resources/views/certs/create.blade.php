@@ -43,7 +43,7 @@
                         <div class="row mb-3">
                             <label class="col-md-4 col-form-label text-md-end" for="customFile">Default file input example</label>
                             <div class="col-md-6">
-                                <input type="file" class="form-control" id="image" />
+                                <input type="file" required class="form-control" id="image" />
                             </div>
                         </div>
 
@@ -51,8 +51,12 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-outline-primary">
-                                    {{ __('Add user') }}
+                                    {{ __('Add certs') }}
                                 </button>
+
+                                <a type="button" class="btn btn-outline-secondary" href="{{ route("certs.index")}}">
+                                    Back
+                                </a>
                             </div>
                         </div>
                     </form>
