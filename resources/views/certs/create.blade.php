@@ -60,7 +60,7 @@
                                     {{ __('Add certs') }}
                                 </button>
 
-                                <a type="button" class="btn btn-outline-secondary" href="{{ route("certs.index")}}">
+                                <a class="btn btn-outline-secondary" href="{{ route("certs.index")}}">
                                     Back
                                 </a>
                             </div>

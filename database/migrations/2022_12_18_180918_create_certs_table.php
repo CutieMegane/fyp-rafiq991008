@@ -19,7 +19,7 @@ return new class extends Migration
         });*/
 
         Schema::create('certs', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('details')->nullable();
             $table->string('created_by');

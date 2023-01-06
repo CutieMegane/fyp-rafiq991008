@@ -26,7 +26,7 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
 
-                                <a type="button" class="btn btn-outline-secondary" href="/">
+                                <a class="btn btn-outline-secondary" href="{{route("home")}}">
                                     Back
                                 </a>
                             </div>
