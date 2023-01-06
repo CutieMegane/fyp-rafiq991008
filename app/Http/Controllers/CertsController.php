@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Certs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Psy\CodeCleaner\ReturnTypePass;
 
 class CertsController extends Controller
 {
@@ -71,7 +71,18 @@ class CertsController extends Controller
      */
     public function show(Certs $cert)
     {
-        //
+        //dd($cert -> details);
+        return view('certs.show', compact('cert'));
+    }
+
+    public function certValidator(Request $request){
+        $hess = hash_file("sha256", $request->image->path());
+
+        if (Certs::where('hash', '=',  $hess)->exists()) {
+            return redirect()->route('certs.show', Certs::where('hash', '=',  $hess)->first());
+        } else {
+            return redirect()->route('home')->with('success2', 'No matching found in database, the files might be processed/compressed or modified.');
+        }
     }
 
     public function downloadCert(Certs $cert)

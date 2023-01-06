@@ -20,15 +20,16 @@ use App\Http\Controllers\CertsController;
     return view('welcome');
 });
 */
-Route::get('/', [home::class, 'index'])->name('home');                                                  //Main page
-Route::get('init', [home::class, 'index']);                                                             //Catching Nottyboi
-Route::post('init', [authEngine::class, 'firstInit'])->name('init');                                    //Startup operator account creation
-Route::get('login', [authEngine::class, 'redirector'])->name('login');                                  //Login
-Route::post('login', [authEngine::class, 'auth'])->name('login');                                       //Login handler
-Route::post('logout', [authEngine::class, 'deauth'])->name('logout');                                   //Logout handler
-Route::resource('/user', authEngine::class, ['except' => 'show']) -> middleware('auth');                //All user CRUD operation
-Route::resource('/certs', CertsController::class, ['except' => 'show, update']) -> middleware('auth');  //All certs CRUD operation
-Route::get('download/{cert}', [CertsController::class, 'downloadCert'])-> name('certs.download');
+Route::get('/', [home::class, 'index'])->name('home');                                                      //Main page
+Route::get('init', [home::class, 'index']);                                                                 //Catching Nottyboi
+Route::post('init', [authEngine::class, 'firstInit'])->name('init');                                        //Startup operator account creation
+Route::get('login', [authEngine::class, 'redirector'])->name('login');                                      //Login
+Route::post('login', [authEngine::class, 'auth'])->name('login');                                           //Login handler
+Route::post('logout', [authEngine::class, 'deauth'])->name('logout');                                       //Logout handler
+Route::resource('/user', authEngine::class, ['except' => 'show']) -> middleware('auth');                    //All user CRUD operation
+Route::resource('/certs', CertsController::class)->except(['edit', 'update']) -> middleware('auth');        //All certs C-r-uD operation
+Route::get('download/{cert}', [CertsController::class, 'downloadCert'])-> name('certs.download');           //Certs download
+Route::post('verify', [CertsController::class, 'certValidator']) -> name('certs.validate');
 
 
-Route::get('ofni', function () {phpinfo();});                                                           //PHP sometimes broke itself
+Route::get('ofni', function () {phpinfo();});                                                               //PHP sometimes broke itself
