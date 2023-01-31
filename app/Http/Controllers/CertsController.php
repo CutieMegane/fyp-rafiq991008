@@ -6,7 +6,6 @@ use App\Models\Certs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Psy\CodeCleaner\ReturnTypePass;
 
 class CertsController extends Controller
 {

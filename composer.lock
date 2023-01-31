@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b0609ff672892fcfea24260aa4be4e9",
+    "content-hash": "9b5b07d3a428031151c06eaee2657605",
     "packages": [
         {
             "name": "brick/math",
@@ -2726,6 +2726,49 @@
                 }
             ],
             "time": "2022-07-30T15:51:26+00:00"
+        },
+        {
+            "name": "picamator/steganographykit",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/picamator/SteganographyKit.git",
+                "reference": "f1318715ee6350ecddc94410e90f77120c0e0987"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/picamator/SteganographyKit/zipball/f1318715ee6350ecddc94410e90f77120c0e0987",
+                "reference": "f1318715ee6350ecddc94410e90f77120c0e0987",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sergii Pryz",
+                    "email": "picamator@gmail.com"
+                }
+            ],
+            "description": "Implementation of several steganography algorithms",
+            "keywords": [
+                "steganography"
+            ],
+            "support": {
+                "issues": "https://github.com/picamator/SteganographyKit/issues",
+                "source": "https://github.com/picamator/SteganographyKit/tree/master"
+            },
+            "time": "2014-11-06T22:26:42+00:00"
         },
         {
             "name": "psr/cache",
