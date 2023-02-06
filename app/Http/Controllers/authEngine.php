@@ -19,11 +19,10 @@ class authEngine extends Controller
         $check = User::all();
         if ($check->isEmpty()) {
             return view('init');
-        } else if (Auth::check()){
+        } else if (Auth::check()) {
             return view('home');
         } else
             return view('login');
-            
     }
 
     public function firstInit(Request $data)
@@ -73,13 +72,9 @@ class authEngine extends Controller
         return redirect()->route('home');
     }
 
-    public function username() {
+    public function username()
+    {
         return Auth::user()->username;
-    }
-
-    public function deop(Request $request, User $user) {
-        if ($request['operator'] == "on") $op = 1;
-        else $op = 0;
     }
 
     public function index()
@@ -110,7 +105,7 @@ class authEngine extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:50', 'unique:users'],
-            'email' => ['nullable','string', 'max:100', 'email'],
+            'email' => ['nullable', 'string', 'max:100', 'email'],
             'password' => ['required', 'string', 'confirmed'],
         ]);
 
@@ -118,7 +113,7 @@ class authEngine extends Controller
         if ($request['operator'] == "on") $op = 1;
         else $op = 0;
 
-        
+
 
         User::create([
             'name' => $request['name'],

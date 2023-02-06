@@ -72,9 +72,12 @@
 
                         <div class="row mb-3">
                             <label for="operator" class="col-md-4 col-form-label text-md-end">{{ __('Operator') }}</label>
-
                             <div class="col-md-6">
+                            @if ($user -> operator)
+                                <input type="checkbox" class="form-check-input" style="margin-top: 10px;" id="operator" name="operator" checked>
+                            @else
                                 <input type="checkbox" class="form-check-input" style="margin-top: 10px;" id="operator" name="operator">
+                            @endif
                             </div>
                         </div>
 

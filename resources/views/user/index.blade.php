@@ -44,9 +44,9 @@
         <td>{{ $s -> name }}</td>
         <td>{{ $s -> last_login }}</td>
         @if ($s -> operator)
-        <td> <input type="checkbox" class="form-check-input" style="margin-left:auto; margin-right:auto; margin-top: 10px; display:block;" value="operator" checked></td>
+        <td>Yes</td>
         @else
-        <td> <input type="checkbox" class="form-check-input" style="margin-left:auto; margin-right:auto; margin-top: 10px; display:block;" value="operator"></td>
+        <td>Noo</td>
         @endif
         <td>
             <form action="{{ route('user.destroy',  $s->id) }}" method="POST">
@@ -61,5 +61,6 @@
         </td>
     </tr>
     @endforeach
+</form>
 </table>
 @endsection
