@@ -55,7 +55,7 @@ class authEngine extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
+            User::find(Auth::id())->update(['last_login'=> now()]);
             return redirect()->intended('/');
         }
 
@@ -169,12 +169,17 @@ class authEngine extends Controller
         if (!($request->password == 'null')) {
             $user->password = Hash::make($request->password);
         }
-        if ($request['operator'] == "on") $op = 1;
-        else $op = 0;
-        $user->operator = $op;
+
+        if (auth()->user()->id == $user->id) {
+            return redirect()->route('user.index')->with('success2', "Don't modify own permission please.");
+        } else {
+            if ($request['operator'] == "on") $op = 1;
+            else $op = 0;
+            $user->operator = $op;
+        }
         $user->save();
 
-        return redirect()->route('user.index')->with('success', 'New staff added.');
+        return redirect()->route('user.index')->with('success', 'Data updated.');
     }
 
     /**

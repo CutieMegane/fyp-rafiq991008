@@ -46,7 +46,7 @@
         @if ($s -> operator)
         <td>Yes</td>
         @else
-        <td>Noo</td>
+        <td>No</td>
         @endif
         <td>
             <form action="{{ route('user.destroy',  $s->id) }}" method="POST">
