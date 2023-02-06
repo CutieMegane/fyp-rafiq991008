@@ -6,6 +6,7 @@ use App\Models\Certs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use ZipArchive;
 
 class CertsController extends Controller
 {
@@ -86,8 +87,18 @@ class CertsController extends Controller
 
     public function downloadCert(Certs $cert)
     {
+        //dd (public_path(Storage::url($cert->imagepath)));
+        //random number generator - crash avoidance
         $name = $cert->name . "_" . rand(1000,9999);
-        return response() -> download(public_path(Storage::url($cert->imagepath)), $name);
+    
+        //zipping files
+        $zip = new ZipArchive;
+        $zip->open(public_path($name), ZipArchive::CREATE);
+        $zip->addFile(public_path(Storage::url($cert->imagepath)), $name . "." . pathinfo($cert->imagepath, PATHINFO_EXTENSION));
+        $zip->close();
+
+        //download?
+        return response() -> download(public_path($name), $name)->deleteFileAfterSend(true);
     }
 
     /**
