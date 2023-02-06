@@ -22,10 +22,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('name');
             $table->string('details')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone_no')->nullable();
             $table->string('created_by');
             $table->string('hash')->unique();
             $table->string('imagepath');
-            $table->string('stegopath')->nullable();
+            $table->string('stego_mark')->nullable();
             $table->timestamps();
         });
     }

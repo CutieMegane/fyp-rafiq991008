@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('email')->nullable()->change();
             $table->dropUnique('users_email_unique');
             $table->string('username')->unique()->after('name');
-            $table->boolean('operator')->nullable();
             $table->timestamp('last_login')->nullable();
+            $table->boolean('operator')->nullable();
         });
     }
 

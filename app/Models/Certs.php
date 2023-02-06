@@ -16,6 +16,8 @@ class Certs extends Model
     protected $fillable = [
         'name',
         'details',
+        'email',
+        'phone_no',
         'created_by',
         'created_at',
         'imagepath',

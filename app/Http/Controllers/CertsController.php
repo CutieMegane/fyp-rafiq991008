@@ -6,6 +6,7 @@ use App\Models\Certs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use KzykHys\Steganography\Processor;
 use ZipArchive;
 
 class CertsController extends Controller
@@ -30,7 +31,7 @@ class CertsController extends Controller
     {
         return view('certs.create');
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -45,16 +46,25 @@ class CertsController extends Controller
         ]);
 
         $hess = hash_file("sha256", $request->image->path());
+        
 
         if (Certs::where('hash', '=',  $hess)->exists()) {
             return redirect()->route('certs.index')->with('success2', 'Same file already exists.');
         } else {
-            $paff = $request->image->store('public/images');
+            $temp = storage_path("app/" . $request->image->store('temp'));
+            $paff = storage_path("app/public/") . CertsController::rngString(40) . ".png";
+            $stego_mark = CertsController::rngString(25);
+            
+            $stegoEngine = new Processor;
+            $stegoResult = $stegoEngine->encode($temp, $stego_mark);
+            $stegoResult->write($paff);
+
             Certs::create([
                 'name' => $request['name'],
                 'details' => $request['details'],
                 'imagepath' => $paff,
                 'hash' => $hess,
+                'stego_mark' => $stego_mark,
                 'created_by' => Auth::user()->name,
                 'created_at' => now(),
             ]);
@@ -76,6 +86,7 @@ class CertsController extends Controller
     }
 
     public function certValidator(Request $request){
+
         $hess = hash_file("sha256", $request->image->path());
 
         if (Certs::where('hash', '=',  $hess)->exists()) {
@@ -94,7 +105,7 @@ class CertsController extends Controller
         //zipping files
         $zip = new ZipArchive;
         $zip->open(public_path($name), ZipArchive::CREATE);
-        $zip->addFile(public_path(Storage::url($cert->imagepath)), $name . "." . pathinfo($cert->imagepath, PATHINFO_EXTENSION));
+        $zip->addFile($cert->imagepath, $name . "." . pathinfo($cert->imagepath, PATHINFO_EXTENSION));
         $zip->close();
 
         //download?
@@ -135,5 +146,19 @@ class CertsController extends Controller
         Storage::delete($cert->imagepath);
         $cert->delete();
         return redirect()->route('certs.index')->with('success2', 'Certs revoked.');
+    }
+
+    //https://www.geeksforgeeks.org/generating-random-string-using-php/
+    public function rngString($n)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+
+        for ($i = 0; $i < $n; $i++) {
+            $index = rand(0, strlen($characters) - 1);
+            $randomString .= $characters[$index];
+        }
+
+        return $randomString;
     }
 }
