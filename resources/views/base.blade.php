@@ -45,7 +45,7 @@
                 @endif
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('certs.index') }}" id="nav3">+Cert</a>
+                    <a class="nav-link" href="{{ route('certs.index') }}" id="nav3">Manage Cert</a>
                 </li>
                 @endauth
             </ul>

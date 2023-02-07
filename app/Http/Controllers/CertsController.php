@@ -6,6 +6,7 @@ use App\Models\Certs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use KzykHys\Steganography\Processor;
 use ZipArchive;
 
@@ -51,13 +52,18 @@ class CertsController extends Controller
         if (Certs::where('hash', '=',  $hess)->exists()) {
             return redirect()->route('certs.index')->with('success2', 'Same file already exists.');
         } else {
+            //Preset path, and keys
             $temp = storage_path("app/" . $request->image->store('temp'));
             $paff = storage_path("app/public/") . CertsController::rngString(40) . ".png";
             $stego_mark = CertsController::rngString(25);
             
+            //Steganography etching magick
             $stegoEngine = new Processor;
             $stegoResult = $stegoEngine->encode($temp, $stego_mark);
             $stegoResult->write($paff);
+            
+            //Hash for quick check
+            $hess = hash_file("sha256", $paff);
 
             Certs::create([
                 'name' => $request['name'],
@@ -81,19 +87,23 @@ class CertsController extends Controller
      */
     public function show(Certs $cert)
     {
-        //dd($cert -> details);
         return view('certs.show', compact('cert'));
     }
 
+    #todo unzip, read stego, compare, and return result. Oh, adjust so that stego and hash string available for review
     public function certValidator(Request $request){
+        if (!Validator::make($request->all(), ['image' => 'mimes:zip',])->fails())
+            dd("weee");
+        else {
+            $hess = hash_file("sha256", $request->image->path());
 
-        $hess = hash_file("sha256", $request->image->path());
-
-        if (Certs::where('hash', '=',  $hess)->exists()) {
-            return redirect()->route('certs.show', Certs::where('hash', '=',  $hess)->first());
-        } else {
-            return redirect()->route('home')->with('success2', 'No matching found in database, the files might be processed/compressed or modified.');
+            if (Certs::where('hash', '=',  $hess)->exists()) {
+                return redirect()->route('certs.show', Certs::where('hash', '=',  $hess)->first());
+            } else {
+                return redirect()->route('home')->with('success2', 'No matching found in database, the files might be processed/compressed or modified.');
+            }
         }
+
     }
 
     public function downloadCert(Certs $cert)
