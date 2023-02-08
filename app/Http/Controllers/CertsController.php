@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use KzykHys\Steganography\Processor;
-use PhpParser\Node\Stmt\TryCatch;
 use ZipArchive;
 
 class CertsController extends Controller
