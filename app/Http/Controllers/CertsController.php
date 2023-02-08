@@ -48,6 +48,8 @@ class CertsController extends Controller
         //Validate uploaded images
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'email' => ['nullable', 'email'],
+            'phone_no' => ['nullable', 'numeric','min_digits:9', 'max_digits:11'],
             'image' => ['required', 'image'],
         ]);
 
@@ -72,6 +74,8 @@ class CertsController extends Controller
             Certs::create([
                 'name' => $request['name'],
                 'details' => $request['details'],
+                'email' => $request['email'],
+                'phone_no' => $request['phone_no'],
                 'imagepath' => $paff,
                 'hash' => $hess,
                 'stego_mark' => $stego_mark,
@@ -97,7 +101,6 @@ class CertsController extends Controller
         return view('certs.show', compact('cert'));
     }
 
-    #todo ~~unzip, read stego, compare, and return result~~. Oh, adjust so that stego and hash string available for review
     public function certValidator(Request $request){
         //Prevent weird bugs
         CertsController::checkPaths();
@@ -142,7 +145,7 @@ class CertsController extends Controller
                     return redirect()->route('certs.show', Certs::where('stego_mark', '=', $stego_mark)->first());
                 else {
                     $cert = Certs::where('hash', '=', $hess)->first();
-                    return view('certs.show', compact('cert'));
+                    return view('certs.partshow', compact('cert'));
                 }
             }
             else return redirect()->route('home')->with('success2', 'No matching found in database, the files might be processed, compressed or modified.'); 
