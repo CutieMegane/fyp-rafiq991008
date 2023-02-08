@@ -28,7 +28,7 @@ Route::post('login', [authEngine::class, 'auth'])->name('login');               
 Route::post('logout', [authEngine::class, 'deauth'])->name('logout');                                       //Logout handler
 Route::resource('/user', authEngine::class, ['except' => 'show']) -> middleware('auth');                    //All user CRUD operation
 Route::resource('/certs', CertsController::class)->except(['show', 'edit', 'update']) -> middleware('auth');//All certs Create,Delete operation
-Route::get('/verify/{cert}', [CertsController::class, 'show']) ->name('certs.show');                //For certs validation that passes both cryptography and steganography, without middleware
+Route::get('/verify/{cert}', [CertsController::class, 'show']) ->name('certs.show');                        //For certs validation that passes both cryptography and steganography, without middleware
 Route::get('download/{cert}', [CertsController::class, 'downloadCert'])-> name('certs.download');           //Certs download
 Route::post('verify', [CertsController::class, 'certValidator']) -> name('certs.validate');                 //Post to controller, custom
 
