@@ -42,5 +42,6 @@ return new class extends Migration
         //Schema::connection('mongodb')-> dropIfExists('certs');
         Schema::dropIfExists('certs');
         Storage::deleteDirectory('public/images');
+        Storage::deleteDirectory('temp');
     }
 };

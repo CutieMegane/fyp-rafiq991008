@@ -27,7 +27,7 @@
                         <div class="row mb-3">
                             <label class="col-md-4 col-form-label text-md-end" for="customFile">Certificate file</label>
                             <div class="col-md-6">
-                                <input type="file" required class="form-control" id="image" name="image" />
+                                <input type="file" required class="form-control" id="file" name="file" />
 
                                 @error('image')
                                 <span class="invalid-feedback" role="alert">
