@@ -6,6 +6,8 @@ use App\Models\Certs;
 use Illuminate\Support\Facades\Validator;
 use KzykHys\Steganography\Processor;
 use ZipArchive;
+use Kreait\Firebase;
+use Kreait\Firebase\Factory;
 use Illuminate\Http\Request;
 
 class CertsAPI extends Controller
@@ -17,7 +19,17 @@ class CertsAPI extends Controller
      */
     public function index()
     {
-        //
+        //firebase test
+        $firebase = (new Factory)
+        ->withServiceAccount(base_path()."/firebase_credentials.json")
+        ->withDatabaseUri('https://fyp-extended-default-rtdb.asia-southeast1.firebasedatabase.app');
+
+        $database = $firebase->createDatabase();
+
+        $key = $database
+            ->getReference('Entry1');
+
+        return response()->json($key->getValue());
     }
 
     public function certValidator(Request $request)
@@ -92,5 +104,13 @@ class CertsAPI extends Controller
 
         //download?
         return response()->download(public_path($name), $name)->deleteFileAfterSend(true);
+    }
+
+    public function registerNotification(Request $request){
+        if (!$request->fid) return response("Empty?", 418);
+        if (!$request->phone_no && !$request->email) return response("Empty?", 418);
+
+        //add email/phone no to mobileNotification collection
+        //but how to obtain client ID :|
     }
 }

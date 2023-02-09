@@ -22,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Route::get('retrieve', [CertsAPI::class, 'show']);
 Route::post('verify', [CertsAPI::class, 'certValidator']); 
 Route::get('download', [CertsAPI::class, 'downloadCert']);
+Route::get('index', [CertsAPI::class, 'index']);
+Route::post('registerNoty', [CertsAPI::class, 'registerNotification']);
