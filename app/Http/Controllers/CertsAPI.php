@@ -113,4 +113,9 @@ class CertsAPI extends Controller
         //add email/phone no to mobileNotification collection
         //but how to obtain client ID :|
     }
+
+    public function show(Request $request)
+    {
+        return response()->json(Certs::find($request->certId));
+    }
 }
