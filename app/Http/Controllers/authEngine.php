@@ -79,9 +79,13 @@ class authEngine extends Controller
 
     public function index()
     {
-        $z = User::all();
-
-        return view('user.index', compact('z'));
+        if(Auth::user()->operator == 0){
+            return redirect()->route('home')->with('success2', 'Don\'t, you\'re not an operator.');
+        }
+        else {
+            $z = User::all();
+            return view('user.index', compact('z'));
+        }
     }
 
     /**
@@ -91,7 +95,11 @@ class authEngine extends Controller
      */
     public function create()
     {
-        return view('user.add');
+        if (Auth::user()->operator == 0) {
+            return redirect()->route('home')->with('success2', 'Don\'t, you\'re not an operator.');
+        } else {
+            return view('user.add');
+        }
     }
 
     /**
@@ -102,6 +110,10 @@ class authEngine extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->operator == 0) {
+            return redirect()->route('home')->with('success2', 'Don\'t, you\'re not an operator.');
+        } 
+        
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:50', 'unique:users'],
@@ -145,7 +157,11 @@ class authEngine extends Controller
      */
     public function edit(User $user)
     {
-        return view('user.edit', compact('user'));
+        if (Auth::user()->operator == 0) {
+            return redirect()->route('home')->with('success2', 'Don\'t, you\'re not an operator.');
+        } else {
+            return view('user.edit', compact('user'));
+        } 
     }
 
     /**
@@ -162,6 +178,10 @@ class authEngine extends Controller
             'email' => ['nullable', 'string', 'max:50'],
             'password' => ['nullable', 'string', 'confirmed'],
         ]);
+
+        if (Auth::user()->operator == 0) {
+            return redirect()->route('home')->with('success2', 'Don\'t, you\'re not an operator.');
+        } 
 
         if ($request['name'] != null)
             $user->name = $request['name'];
@@ -192,7 +212,9 @@ class authEngine extends Controller
     {
         if (User::all()->count() == 1) {
             return redirect()->route('user.index')->with('success2', "You are the loner here, please don't delete yourself.");
-        } else if (auth()->user()->id == $user->id) {
+        } else if (Auth::user()->operator == 0) {
+            return redirect()->route('home')->with('success2', 'Don\'t, you\'re not an operator.');
+        }else if (auth()->user()->id == $user->id) {
             return redirect()->route('user.index')->with('success2', "Don't, please.");
         } else {
             $user->delete();

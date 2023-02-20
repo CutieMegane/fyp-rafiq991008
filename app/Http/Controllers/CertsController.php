@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Certs;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,8 +21,13 @@ class CertsController extends Controller
      */
     public function index()
     {
-        $certs = Certs::all();
-        return view('certs.index', compact('certs'));
+        if(Auth::user()->operator == 0){
+            $certs = Certs::where('created_by', 'like', Auth::user()->name)->get()->sortBy('name');
+            return view('certs.index', compact('certs'));
+        } else{
+            $certs = Certs::all()->sortBy('name');
+            return view('certs.index', compact('certs'));
+        }
     }
 
     /**
@@ -65,7 +71,11 @@ class CertsController extends Controller
             
             //Steganography etching magick
             $stegoEngine = new Processor;
-            $stegoResult = $stegoEngine->encode($temp, $stego_mark);
+            try {
+                $stegoResult = $stegoEngine->encode($temp, $stego_mark);
+            } catch (Exception $c) {
+                return redirect()->route('certs.index')->with('success2', 'Apparently you hit this uncommon limitation with gd() library and Adobe ICC color profile. Please use any tools to fix the image first.');
+            }
             $stegoResult->write($paff);
             
             //Hash for quick check
