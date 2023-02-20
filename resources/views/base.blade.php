@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width initial-scale=1">
@@ -7,6 +7,9 @@
     
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link href="/fontawesome-free-6.1.1-web/css/all.css" rel="stylesheet">
+
+    <!--colorChanger-->
+    <script src="scripts/colorChanger.js"></script>
     <!-- preinstalled bootstrap 
     <link href="/scripts/bootstrap-5.2.0-beta1-dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="/scripts/bootstrap-5.2.0-beta1-dist/js/bootstrap.min.js"></script>
@@ -76,9 +79,11 @@
     </div>
 
 
-    <footer class="footer mt-auto py-3 bg-light" style="position:fixed; bottom: 0; width:100%;">
+    <footer class="footer mt-auto py-3" style="position:fixed; bottom: 0; width:100%;">
         <div class="container">
-            <span class="text-muted" style="opacity:15%"> Built with Laravel 9.42.2 with love. And Bootstrap 5 too. 2022 CutieMegane :)</span>
+            <button type="button" class="btn btn-outline-light" onclick='setTheme("light")'>Light</button>
+            <button type="button" class="btn btn-outline-dark" onclick='setTheme("dark")'>Dark</button>
+            <span class="text-muted" style="opacity:15%"> Built with Laravel 9.42.2 with love. And Bootstrap 5 too. 2022-2023 CutieMegane :)</span>
         </div>
     </footer>
 </body>
